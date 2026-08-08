@@ -90,9 +90,12 @@ pipeline {
                     node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json
                     node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json
                 '''
+                script {
+                    env.DEPLOY_URL = sh(script: 'node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json', returnStdout: true)
+                }
             }
         }
-/*
+
         stage("Stage E2E") {
             agent {
                 docker {
@@ -101,10 +104,11 @@ pipeline {
                 }
             }       
             environment {
-                CI_ENVIRONMENT_URL = 'https://luxury-dasik-ac630e.netlify.app'
+                CI_ENVIRONMENT_URL = "${env.DEPLOY_URL}"
             }                       
             steps {
                 sh '''
+                    echo "Temp url is: ${CI_ENVIRONMENT_URL}
                     npx playwright test --reporter=html
                 '''
             }
@@ -114,8 +118,6 @@ pipeline {
                 }
             }                        
         }                 
-
-    */
 
         stage("Production Approval") {
             steps {
