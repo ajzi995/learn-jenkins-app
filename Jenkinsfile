@@ -111,24 +111,6 @@ pipeline {
             }
         }
 
-        /*
-        TEMP DISABLED
-
-        stage("DISABLED") {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true
-                }
-            }            
-            steps {
-                sh '''
-
-                '''
-            }
-        }
-        */
-
         stage("Deploy prod") {
             agent {
                 docker {
