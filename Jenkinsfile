@@ -108,7 +108,7 @@ pipeline {
             }                       
             steps {
                 sh '''
-                    echo "Temp url is: ${CI_ENVIRONMENT_URL}
+                    echo "Temp url is: ${CI_ENVIRONMENT_URL}"
                     npx playwright test --reporter=html
                 '''
             }
